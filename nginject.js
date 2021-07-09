@@ -227,7 +227,7 @@ function inspectAssignment(path, ctx){
 
 function inspectDeclarator(path, ctx){
   const node = path.node;
-  if(!isFunctionExpressionOrArrow(node.init)){
+  if(!isFunctionExpressionOrArrow(node.init) && !t.isClassExpression(node.init)){
     return;
   }
 
@@ -270,9 +270,15 @@ function inspectClassMethod(path, ctx){
   const ancestry = path.getAncestry();
   for(var i=0; i < ancestry.length; i++){
     let ancestor = ancestry[i];
+
     if(ancestor.isClassDeclaration()){
       addSuspect(ancestor, ctx, !annotation);
       return;
+    }
+
+    if (ancestor.isVariableDeclaration()) {
+	  addSuspect(ancestor, ctx, !annotation);
+	  return;
     }
   }
 }
