@@ -1,5 +1,8 @@
 # babel-plugin-angularjs-annotate changelog
 
+## 0.11.0 2021-07-09
+ * Add support for class declarations
+
 ## 0.10.0 2018-12-13
  * Upgrade to Babel 7 (thanks @pioug!)
 
