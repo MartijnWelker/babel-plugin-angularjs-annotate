@@ -168,6 +168,29 @@ module.exports = {
     `
   },
   {
+	name: "class assigned to a var x2",
+	explicit: true,
+	noES5: true,
+	input: `
+	var Foo_1;
+    let Foo = Foo_1 = class Foo {
+      constructor($element) {
+        'ngInject';
+      }
+    };
+    `,
+	expected: `
+	var Foo_1;
+    let Foo = Foo_1 = class Foo {
+      constructor($element) {
+        'ngInject';
+      }
+    };
+    
+    Foo.$inject = ["$element"];
+    `
+  },
+  {
     name: "annotated constructor",
     explicit: true,
     input: function(){

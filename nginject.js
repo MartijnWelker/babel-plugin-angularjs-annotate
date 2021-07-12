@@ -271,6 +271,11 @@ function inspectClassMethod(path, ctx){
   for(var i=0; i < ancestry.length; i++){
     let ancestor = ancestry[i];
 
+	if(ancestor.isClassExpression()){
+	  addSuspect(ancestor, ctx, !annotation);
+	  return;
+	}
+
     if(ancestor.isClassDeclaration()){
       addSuspect(ancestor, ctx, !annotation);
       return;

@@ -749,6 +749,27 @@ function judgeInjectArraySuspect(path, ctx) {
     // node is inner match, descent in multiple steps
     let opath = null;
     let declaratorName = null;
+    let classNode = null;
+
+	if (
+		// todo: this should probably be smarter because with enough chains it could probably be `let Foo = Foo_1 = Foo_2 = class Foo`
+		// let                 Foo              = Foo_1                = class Foo {
+		// VariableDeclaration VariableDeclarator AssignmentExpression ClassExpression (node)
+		t.isClassExpression(node)
+	) {
+		classNode = node;
+
+		if (t.isAssignmentExpression(path.parentPath.node)) {
+			path = path.parentPath;
+		}
+
+		if (t.isVariableDeclarator(path.parentPath.node)) {
+			path = path.parentPath;
+		}
+
+		node = path.node;
+	}
+
     if (t.isVariableDeclarator(node)) {
         opath = path.parentPath;
 
@@ -769,7 +790,7 @@ function judgeInjectArraySuspect(path, ctx) {
     }
 
     path = jumpOverIife(path);
-    node = path.node;
+    node = classNode || path.node;
 
 	if (t.isClass(node) || t.isClassExpression(node)){
         if (!node.id) {
