@@ -1,5 +1,8 @@
 # babel-plugin-angularjs-annotate changelog
 
+## 0.12.0 2021-07-12
+* Add support for class declarations where the class is assinged to an additional variable first because off transpiling
+
 ## 0.11.0 2021-07-09
  * Add support for class declarations
 
